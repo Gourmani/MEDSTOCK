@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stock Entry</title>
+  <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Medicine Stock Entry</h2>
+
+    <form id="stockForm">
+      <label for="name">Med. Name</label>
+      <input type="text" id="name" name="Med. Name" required placeholder="e.g., Aconite (SBL)">
+
+      <label for="stock">In Stock</label>
+      <input type="text" id="stock" name="In Stock" required placeholder="e.g., Nil or 100 ml">
+
+      <label for="required">Med. required</label>
+      <input type="text" id="required" name="Med. required" placeholder="e.g., 100 ml" required>
+
+      <label for="supplier">Supplier</label>
+      <input type="text" id="supplier" name="Supplier" required placeholder="e.g., Gupta Medical">
+
+      <button type="submit">Submit</button>
+      <div id="status" class="status"></div>
+    </form>
+
+    <!-- Nav buttons inside container, below form -->
+    <div class="nav-buttons">
+      <a href="updated_nil-stock.html" target="_blank">📦 Out-of-Stock</a>
+      <a href="full-stock.html" target="_blank">📋 View Full Stock</a>
+    </div>
+  </div>
+
+  <script>
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbwmW-qGU2HPpRmLiiOvu0mAbaNy2yWZshfHAcsgTJR_AENAAaqs5FNQwiDyzoszt2Lalw/exec";
+
+    document.getElementById('stockForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const data = new FormData(this);
+      fetch(ENDPOINT, {
+        method: 'POST',
+        body: new URLSearchParams(data)
+      })
+      .then(res => res.json())
+      .then(resp => {
+        if (resp.result === 'success') {
+          document.getElementById('status').innerText = '✅ Stock added!';
+          this.reset();
+        } else {
+          throw new Error(resp.error);
+        }
+      })
+      .catch(err => {
+        document.getElementById('status').innerText = '❌ Error: ' + err.message;
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Out-of-Stock Medicines</title>
+  <link rel="stylesheet" href="style1.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Out-of-Stock Medicines</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Medicine Name</th>
+          <th>Med. required</th>
+          <th>Supplier</th>
+        </tr>
+      </thead>
+      <tbody id="nilStockBody">
+        <tr><td colspan="3">Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+ <script>
+  const ENDPOINT = "https://script.google.com/macros/s/AKfycbwmW-qGU2HPpRmLiiOvu0mAbaNy2yWZshfHAcsgTJR_AENAAaqs5FNQwiDyzoszt2Lalw/exec";
+
+  fetch(ENDPOINT)
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.getElementById('nilStockBody');
+      tbody.innerHTML = '';
+
+      const nilItems = data.filter(row => {
+        const stockValue = (row['In Stock'] || '').toString().trim().toLowerCase();
+        return stockValue === 'nil';
+      });
+
+      if (nilItems.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3">✅ All medicines in stock.</td></tr>';
+        return;
+      }
+
+      nilItems.forEach(row => {
+        const medName = row['Med. Name']?.trim() || 'N/A';
+        let medRequired = row['Med. required'];
+        medRequired = (typeof medRequired === 'string' && medRequired.trim()) ? medRequired.trim() : 'N/A';
+        const supplier = row['Supplier']?.trim() || 'N/A';
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${medName}</td>
+          <td>${medRequired}</td>
+          <td>${supplier}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    })
+    .catch(() => {
+      document.getElementById('nilStockBody').innerHTML = '<tr><td colspan="3">❌ Failed to fetch data.</td></tr>';
+    });
+</script>
+
+
+
+
+
+</body>
+</html>

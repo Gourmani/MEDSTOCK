@@ -7,23 +7,26 @@
 
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #e0f7fa, #fce4ec);
+  background: linear-gradient(135deg, #99bcc1, #e47298);
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
+  line-height: 1.6;
 }
 
 /* Main container */
 .container {
-  background: #ffffff;
+  background: #f8faf7;
   width: 100%;
   max-width: 500px;
   padding: 35px 30px;
   border-radius: 16px;
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
   transition: 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
 }
 
 .container:hover {
@@ -49,10 +52,14 @@ input[type="text"] {
   width: 100%;
   padding: 12px 14px;
   margin-bottom: 20px;
-  border: 1px solid #dfe6e9;
+  border: 1px solid #97d0e9;
   border-radius: 8px;
   font-size: 14px;
-  transition: border 0.2s;
+  transition: border 0.2s, box-shadow 0.3s;
+}
+
+input[type="text"]:hover {
+  border-color: #80bdff;
 }
 
 input[type="text"]:focus {
@@ -65,18 +72,21 @@ input[type="text"]:focus {
 button[type="submit"] {
   width: 100%;
   padding: 14px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
+  background-color: #f15cf1;
+  color: #e5eaf0;
+  border:mediumspringgreen;
   border-radius: 8px;
   font-size: 16px;
+
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(233, 237, 242, 0.2);
 }
 
 button[type="submit"]:hover {
   background-color: #0056b3;
+  box-shadow: 0 6px 12px rgba(32, 129, 233, 0.4);
 }
 
 /* Status message */
@@ -97,7 +107,7 @@ table {
 
 th, td {
   padding: 14px;
-  border-bottom: 1px solid #e1e1e1;
+  border-bottom: 1px solid #f371e0;
   text-align: left;
   font-size: 14px;
 }
@@ -109,7 +119,7 @@ th {
 }
 
 tr:hover {
-  background-color: #f1f1f1;
+  background-color: #f7f0f0;
 }
 
 /* Navigation buttons container below the form */
@@ -140,15 +150,26 @@ tr:hover {
 }
 
 /* Responsive tweaks */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+}
+
 @media (max-width: 480px) {
+  body {
+    align-items: flex-start;
+    padding-top: 40px;
+  }
+
   .container {
     padding: 25px 20px;
     max-width: 100%;
     margin: 20px;
   }
-  
+
   .nav-buttons a {
-    flex: 1 1 100%; /* Buttons stack vertically on small screens */
+    flex: 1 1 100%;
     font-size: 16px;
   }
 
@@ -156,7 +177,7 @@ tr:hover {
     font-size: 15px;
     padding: 12px;
   }
-  
+
   input[type="text"] {
     padding: 10px 12px;
     font-size: 13px;
@@ -164,5 +185,13 @@ tr:hover {
 
   h2 {
     font-size: 22px;
+  }
+}
+/* Responsive Table Scroll on Small Screens */
+@media (max-width: 600px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
   }
 }
